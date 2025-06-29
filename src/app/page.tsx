@@ -101,7 +101,6 @@ function AnimatedCar() {
 export default function Home() {
   const [submittedData, setSubmittedData] = useState<{ route: 'C' | 'E9'; hour: string } | null>({ route: 'C', hour: '07:30' });
   const [showCar, setShowCar] = useState(false);
-  const [pendingData, setPendingData] = useState<{ route: 'C' | 'E9'; hour: string } | null>(null);
   const {
     register,
     handleSubmit,
@@ -155,12 +154,7 @@ export default function Home() {
   const onSubmit = (data: PredictionForm) => {
     if (!isHourValid(data.hour)) return;
     setShowCar(true);
-    setPendingData(data);
-    setTimeout(() => {
-      setShowCar(false);
-      setSubmittedData(data);
-      setPendingData(null);
-    }, 2000);
+    setSubmittedData(data);
   };
 
   return (
