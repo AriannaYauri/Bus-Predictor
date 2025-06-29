@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useQuery } from '@tanstack/react-query';
 import { FaBus, FaClock, FaInfoCircle, FaBolt, FaRocket, FaRegClock, FaCheckCircle, FaLightbulb, FaMapMarkerAlt } from 'react-icons/fa';
 
 interface PredictionForm {
@@ -16,21 +15,6 @@ interface PredictionResponse {
   probNext5: number | null;
   probNext10: number | null;
   probNext15: number | null;
-}
-
-function usePrediction(route: string, hour: string) {
-  return useQuery({
-    queryKey: ['prediction', route, hour],
-    queryFn: async (): Promise<PredictionResponse> => {
-      const response = await fetch(`/api/predict?route=${route}&hour=${hour}`);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || errorData.error || 'Failed to fetch prediction');
-      }
-      return response.json();
-    },
-    enabled: !!route && !!hour,
-  });
 }
 
 const LINES = {
@@ -101,7 +85,6 @@ function AnimatedCar() {
 export default function Home() {
   const [submittedData, setSubmittedData] = useState<{ route: 'C' | 'E9'; hour: string } | null>({ route: 'C', hour: '07:30' });
   const [showCar, setShowCar] = useState(false);
-  const [pendingData, setPendingData] = useState<{ route: 'C' | 'E9'; hour: string } | null>(null);
   const {
     register,
     handleSubmit,
@@ -114,18 +97,6 @@ export default function Home() {
     },
   });
   const selectedRoute = watch('route') || 'C';
-  const predictionQuery = useQuery({
-    queryKey: ['prediction', submittedData?.route, submittedData?.hour],
-    queryFn: async (): Promise<PredictionResponse> => {
-      const response = await fetch(`/api/predict?route=${submittedData?.route}&hour=${submittedData?.hour}`);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || errorData.error || 'Failed to fetch prediction');
-      }
-      return response.json();
-    },
-    enabled: !!submittedData?.route && !!submittedData?.hour && !showCar,
-  });
 
   // Consejos personalizados
   function getRecommendation(route: 'C' | 'E9', data: PredictionResponse | undefined) {
@@ -155,12 +126,7 @@ export default function Home() {
   const onSubmit = (data: PredictionForm) => {
     if (!isHourValid(data.hour)) return;
     setShowCar(true);
-    setPendingData(data);
-    setTimeout(() => {
-      setShowCar(false);
-      setSubmittedData(data);
-      setPendingData(null);
-    }, 2000);
+    setSubmittedData(data);
   };
 
   return (
@@ -262,37 +228,6 @@ export default function Home() {
         {/* Carrito animado al cambiar horario */}
         {showCar ? (
           <AnimatedCar />
-        ) : predictionQuery.isLoading ? (
-          <div className="flex justify-center items-center py-8">
-            <span className="animate-spin rounded-full h-10 w-10 border-4 border-blue-200 border-t-blue-600"></span>
-          </div>
-        ) : predictionQuery.error ? (
-          <div className="text-red-300 bg-red-900/20 rounded-lg p-4 text-center">
-            Error: {predictionQuery.error.message}
-          </div>
-        ) : predictionQuery.data && predictionQuery.data.lambda !== null ? (
-          <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-              {[predictionQuery.data.probNext1, predictionQuery.data.probNext5, predictionQuery.data.probNext10, predictionQuery.data.probNext15].map((prob, i) => (
-                <div key={i} className={`rounded-xl p-4 flex flex-col items-center bg-white/10 border border-white/10 shadow ${selectedRoute === 'C' ? 'text-blue-100' : 'text-red-100'}`}>
-                  <div className="mb-2">{PROB_ICONS[i]}</div>
-                  <span className={`text-2xl font-bold ${selectedRoute === 'C' ? 'text-yellow-300' : 'text-red-300'}`}>{prob !== null ? `${Math.round(prob * 100)}%` : '--'}</span>
-                  <span className="text-xs mb-2">{PROB_LABELS[i]}</span>
-                  <div className="w-full h-2 rounded-full bg-white/20 overflow-hidden">
-                    <div
-                      className={`h-2 rounded-full ${selectedRoute === 'C' ? 'bg-blue-400' : 'bg-red-400'}`}
-                      style={{ width: prob !== null ? `${Math.round(prob * 100)}%` : '0%' }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            {/* Recomendación */}
-            <div className="flex items-center gap-2 bg-white/10 border border-white/10 rounded-xl p-4 mt-2">
-              <FaLightbulb className="text-yellow-300 text-xl" />
-              <span className="text-white text-sm">{getRecommendation(selectedRoute, predictionQuery.data)}</span>
-            </div>
-          </>
         ) : (
           <div className="text-center text-blue-100 py-8">No hay datos disponibles para este minuto.</div>
         )}
@@ -304,29 +239,29 @@ export default function Home() {
           <FaInfoCircle className="text-blue-300 text-lg" />
           <span className="font-semibold text-white">Información de {LINES[selectedRoute].name}</span>
         </div>
-        {predictionQuery.data && predictionQuery.data.lambda !== null ? (
+        {submittedData && submittedData.lambda !== null ? (
           <div className="flex flex-wrap gap-8 text-blue-100 text-sm">
             <div>
               <span className="block font-bold text-white">Frecuencia estimada</span>
               <span>
-                {predictionQuery.data.lambda > 0
-                  ? `Cada ${(1 / predictionQuery.data.lambda).toFixed(1)} min`
+                {submittedData.lambda > 0
+                  ? `Cada ${(1 / submittedData.lambda).toFixed(1)} min`
                   : '--'}
               </span>
             </div>
             <div>
               <span className="block font-bold text-white">Confiabilidad (≤10 min)</span>
               <span>
-                {predictionQuery.data.lambda > 0
-                  ? `${((1 - Math.exp(-predictionQuery.data.lambda * 10)) * 100).toFixed(1)}%`
+                {submittedData.lambda > 0
+                  ? `${((1 - Math.exp(-submittedData.lambda * 10)) * 100).toFixed(1)}%`
                   : '--'}
               </span>
             </div>
             <div>
               <span className="block font-bold text-white">Tasa de llegada (λ)</span>
               <span>
-                {predictionQuery.data.lambda > 0
-                  ? `${predictionQuery.data.lambda.toFixed(3)} buses/min`
+                {submittedData.lambda > 0
+                  ? `${submittedData.lambda.toFixed(3)} buses/min`
                   : '--'}
               </span>
             </div>
