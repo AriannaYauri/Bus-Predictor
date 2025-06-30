@@ -2,12 +2,12 @@
   {
     "minuto": 0,
     "ruta": "C",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.367,
+    "headway": 2.723404255319149,
+    "probNext1": 0.30732024458652063,
+    "probNext5": 0.8405360657690519,
+    "probNext10": 0.9745712536795879,
+    "probNext15": 0.9959450320691864
   },
   {
     "minuto": 1,

@@ -54,6 +54,13 @@ class BusProbabilityEstimator {
             headwayValues.push(headway);
         }
 
+        // Calcular promedio de headways para usar como valor por defecto
+        const averageHeadway = headwayValues.length > 0 
+            ? headwayValues.reduce((sum, h) => sum + h, 0) / headwayValues.length 
+            : 10; // Valor por defecto de 10 minutos si no hay datos
+        
+        console.log(`📊 Headway promedio: ${averageHeadway.toFixed(2)} minutos`);
+
         // Asignar headway a cada minuto
         for (let i = 0; i < data.length; i++) {
             const currentMinute = data[i]['Minuto desde inicio'];
@@ -72,10 +79,15 @@ class BusProbabilityEstimator {
                 assignedHeadway = headwayValues[headwayValues.length - 1];
             }
 
+            // Si no hay headway asignado, usar el promedio histórico
+            if (assignedHeadway === null) {
+                assignedHeadway = averageHeadway;
+            }
+
             headways.push({
                 minuto: currentMinute,
                 headway: assignedHeadway,
-                lambda: assignedHeadway ? 1 / assignedHeadway : null
+                lambda: 1 / assignedHeadway
             });
         }
 
@@ -84,13 +96,10 @@ class BusProbabilityEstimator {
 
     // Calcular probabilidades usando distribución exponencial
     calculateProbabilities(lambda, timeIntervals = [1, 5, 10, 15]) {
+        // Asegurar que lambda sea un número válido
         if (lambda === null || lambda <= 0) {
-            return {
-                probNext1: null,
-                probNext5: null,
-                probNext10: null,
-                probNext15: null
-            };
+            // Usar un valor por defecto basado en un headway de 10 minutos
+            lambda = 1 / 10; // 0.1 buses por minuto
         }
 
         const probabilities = {};

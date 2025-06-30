@@ -2,82 +2,82 @@
   {
     "minuto": 0,
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   },
   {
     "minuto": 1,
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   },
   {
     "minuto": 2,
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   },
   {
     "minuto": 3,
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   },
   {
     "minuto": 4,
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   },
   {
     "minuto": 5,
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   },
   {
     "minuto": 6,
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   },
   {
     "minuto": 7,
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   },
   {
     "minuto": 8,
@@ -1311,11 +1311,11 @@
   },
   {
     "ruta": "Expreso9",
-    "lambda": null,
-    "headway": null,
-    "probNext1": null,
-    "probNext5": null,
-    "probNext10": null,
-    "probNext15": null
+    "lambda": 0.223,
+    "headway": 4.481481481481482,
+    "probNext1": 0.1999975556391127,
+    "probNext5": 0.6723149939183113,
+    "probNext10": 0.8926225367892436,
+    "probNext15": 0.964814015314747
   }
 ]
