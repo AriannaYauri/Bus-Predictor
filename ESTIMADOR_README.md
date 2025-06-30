@@ -1,8 +1,8 @@
-# 🚌 Estimador de Probabilidades de Buses
+# Estimador de Probabilidades de Buses
 
 Este estimador calcula la probabilidad de llegada de buses en los próximos 1, 5, 10 y 15 minutos basándose en **headways reales** calculados minuto a minuto, utilizando la distribución exponencial.
 
-## 📊 Metodología
+## Metodología
 
 ### 1. Cálculo de Headways Reales
 - Se identifican todos los minutos donde pasó un bus (columna "¿Bus?" = "Sí")
@@ -17,43 +17,29 @@ Este estimador calcula la probabilidad de llegada de buses en los próximos 1, 5
 - `P(bus en t minutos) = 1 - exp(-λ(m) * t)`
 - Se calculan para t = 1, 5, 10, 15 minutos
 
-## 🚀 Uso Rápido
 
-### Ejecutar análisis completo:
-```bash
-cd bus-predictor
-node bus-probability-estimator.js
-```
-
-### Ejecutar ejemplos:
-```bash
-node run-estimator.js
-```
-
-## 📁 Archivos Generados
+## Archivos Generados
 
 El script genera dos archivos JSON con todas las estimaciones:
 
 - `results/ruta-c-estimations.json` - Estimaciones para la Ruta C
 - `results/expreso-9-estimations.json` - Estimaciones para el Expreso 9
 
-## 🔧 Uso Programático
+## Uso Programático
 
 ```javascript
 const BusProbabilityEstimator = require('./bus-probability-estimator');
 
 const estimator = new BusProbabilityEstimator();
 
-// Cargar y procesar datos
 estimator.loadData();
 estimator.processData();
 
-// Obtener estimación para un minuto específico
 const estimation = estimator.getEstimation(13, 'C');
 console.log(estimation);
 ```
 
-## 📋 Formato de Salida
+## Formato de Salida
 
 ```json
 {
@@ -78,7 +64,7 @@ console.log(estimation);
 - `probNext10`: Probabilidad de bus en 10 minutos
 - `probNext15`: Probabilidad de bus en 15 minutos
 
-## 📊 Estructura de Datos Esperada
+## Estructura de Datos Esperada
 
 Los archivos Excel deben tener las siguientes columnas:
 - **A**: Minuto desde inicio
@@ -88,13 +74,12 @@ Los archivos Excel deben tener las siguientes columnas:
 - **E**: ¿Bus? ("Sí" o "No")
 - **F**: Personas que quedaron en cola
 
-## ⚠️ Casos Especiales
+## Casos Especiales
 
 - Si un minuto no tiene headway asignado (por falta de buses antes o después), las probabilidades serán `null`
-- Los minutos antes del primer bus no tienen estimación
 - Los minutos después del último bus usan el último headway disponible
 
-## 🧮 Ejemplo de Cálculo
+## Ejemplo de Cálculo
 
 Para el minuto 13 con headway = 9:
 - `λ = 1/9 = 0.111`
@@ -103,7 +88,7 @@ Para el minuto 13 con headway = 9:
 - `P(bus en 10 min) = 1 - exp(-0.111 * 10) = 0.653`
 - `P(bus en 15 min) = 1 - exp(-0.111 * 15) = 0.777`
 
-## 🔍 Diferencias entre Rutas
+## Diferencias entre Rutas
 
 - **Ruta C**: Usa datos de `Datos_C_1.xlsx`
 - **Expreso 9**: Usa datos de `Datos_only.xlsx`

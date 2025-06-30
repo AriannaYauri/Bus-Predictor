@@ -1,10 +1,10 @@
-# 🚌 Instrucciones de Uso - Estimador de Probabilidades de Buses
+# Instrucciones de Uso - Estimador de Probabilidades de Buses
 
-## 📋 Resumen
+## Resumen
 
 Este sistema calcula la probabilidad de llegada de buses en los próximos 1, 5, 10 y 15 minutos basándose en **headways reales** calculados minuto a minuto, utilizando la distribución exponencial.
 
-## 🚀 Scripts Disponibles
+## Scripts Disponibles
 
 ### 1. `bus-probability-estimator.js` - Script Principal
 **Uso:** `node bus-probability-estimator.js`
@@ -35,7 +35,7 @@ Este sistema calcula la probabilidad de llegada de buses en los próximos 1, 5, 
 - Muestra nombres de columnas y primeros registros
 - Útil para verificar la estructura de datos
 
-## 📊 Archivos de Datos
+## Archivos de Datos
 
 ### Entrada (Excel):
 - `data/Datos_C_1.xlsx` - Datos de la Ruta C
@@ -45,7 +45,7 @@ Este sistema calcula la probabilidad de llegada de buses en los próximos 1, 5, 
 - `results/ruta-c-estimations.json` - Estimaciones completas Ruta C
 - `results/expreso-9-estimations.json` - Estimaciones completas Expreso 9
 
-## 🧮 Metodología
+## Metodología
 
 ### 1. Cálculo de Headways
 ```
@@ -63,7 +63,7 @@ Headways: [3, 4, 1, 3, 7, ...]
 P(bus en t minutos) = 1 - exp(-λ * t)
 ```
 
-## 📋 Formato de Salida
+## Formato de Salida
 
 ```json
 {
@@ -78,7 +78,7 @@ P(bus en t minutos) = 1 - exp(-λ * t)
 }
 ```
 
-## 🔧 Uso Programático
+## Uso Programático
 
 ```javascript
 const BusProbabilityEstimator = require('./bus-probability-estimator');
@@ -113,13 +113,8 @@ const allEstimations = estimator.generateAllEstimations('C');
 - **P(bus en 10 min):** 63.2%
 - **P(bus en 15 min):** 77.7%
 
-## ⚠️ Casos Especiales
 
-- **Minutos antes del primer bus:** `null` (sin estimación)
-- **Minutos después del último bus:** Usa el último headway disponible
-- **Minutos sin headway asignado:** `null` (sin estimación)
-
-## 🎯 Diferencias entre Rutas
+## Diferencias entre Rutas
 
 | Aspecto | Ruta C | Expreso 9 |
 |---------|--------|-----------|
@@ -127,7 +122,7 @@ const allEstimations = estimator.generateAllEstimations('C');
 | **Patrón de llegada** | Más irregular | Más regular |
 | **Headways típicos** | 1-7 minutos | 3-10 minutos |
 
-## 🔍 Verificación de Datos
+## Verificación de Datos
 
 Para verificar que los datos se están leyendo correctamente:
 
@@ -140,24 +135,10 @@ Esto mostrará:
 - Nombres de columnas disponibles
 - Primeros registros como ejemplo
 
-## 📝 Notas Importantes
+## Notas Importantes
 
 1. **No se usa interpolación:** Solo headways basados en observación directa
 2. **Cada minuto tiene su propio λ:** No se usan promedios globales
 3. **Distribución exponencial:** Asume llegadas aleatorias entre buses
 4. **Datos reales:** Basado en observaciones minuto a minuto reales
 
-## 🚨 Solución de Problemas
-
-### Error: "No se pudieron cargar los datos"
-- Verificar que los archivos Excel estén en `data/`
-- Verificar nombres de archivos: `Datos_C_1.xlsx` y `Datos_only.xlsx`
-
-### Error: "Minuto X no encontrado"
-- Los minutos deben estar en el rango de los datos
-- Ruta C: 0-130 minutos
-- Expreso 9: 0-131 minutos
-
-### Probabilidades null
-- Indica que no hay headway asignado para ese minuto
-- Común en minutos antes del primer bus 
